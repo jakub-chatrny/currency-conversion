@@ -13,4 +13,17 @@ router.post('/convert',
     }
 );
 
+router.get('/convert',
+    async function (next) {
+        try {
+            console.log(this.request.query);
+            const {value, srcCurrency, dstCurrency} = this.request.query;
+            this.body = {convertedValue: await currencyService.convert(value, srcCurrency, dstCurrency)}
+        } catch (err) {
+            console.log(err)
+        }
+        await next;
+    }
+);
+
 module.exports = router;
