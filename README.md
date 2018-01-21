@@ -1,5 +1,5 @@
 # currency-conversion
-## Run beckend
+## Run backend
 ```
  cd backend
  npm install
