@@ -29,12 +29,13 @@ export default class CurrencyConverter extends Component {
                 <h2>
                     Convert:
                 </h2>
-                <Form onSubmit={this.submitForm}
-                      defaultValues={{
-                          value: 1,
-                          srcCurrency: 'EUR',
-                          dstCurrency: 'CZK',
-                      }}
+                <Form
+                    onSubmit={this.submitForm}
+                    defaultValues={{
+                      value: 1,
+                      srcCurrency: 'EUR',
+                      dstCurrency: 'CZK',
+                    }}
                 >
                     { formApi => (
                         <form
