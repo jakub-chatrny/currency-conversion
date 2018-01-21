@@ -1,0 +1,19 @@
+.Currency-converter-form > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 300px;
+    margin: 10px auto 0 auto;
+}
+
+.Currency-converter-form > div > label {
+    order: 1;
+    width: 10em;
+    padding-right: 0.5em;
+    text-align: right;
+}
+
+.Currency-converter-form > div > label + * , .Currency-converter-form > div > button{
+    order: 2;
+    flex: 1 1 auto;
+}

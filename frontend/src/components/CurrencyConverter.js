@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Text, Select} from 'react-form';
+import fetch from '../fetch';
+import './CurrencyConverter.css';
 
 export default class CurrencyConverter extends Component {
     constructor() {
@@ -10,72 +12,23 @@ export default class CurrencyConverter extends Component {
         };
         this.submitForm = this.submitForm.bind(this);
     }
-    enumsToOptions(enums) {
-        return Object.keys(enums).map(
-            (enumKey) => enums[enumKey].reduce(
-                (acc, item) => {acc.push({label: item, value: item}); return acc},
-                [],
-            )
-        );
-    }
     componentDidMount() {
-        try {
-            let response = fetch('http://localhost:9999/api/enums', {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    credentials: 'cross-origin',
-                },
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                this.setState({options: data}, () => console.log(this.state.options));
-                return data;
-            })
-            .catch((error) => {
-                console.log('ERR', error);
-                return error;
-            });
-            return response.value;
-        } catch (error) {
-            console.error(error);
-        }
+        fetch('enums')
+            .then((data) => this.setState({options: data}))
+            .catch((error) => console.error(error));
     }
-    submitForm({value, srcCurrency, dstCurrency}) {
-        try {
-            return fetch(`http://localhost:9999/api/convert?value=${value}&srcCurrency=${srcCurrency}&dstCurrency=${dstCurrency}`, {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    credentials: 'cross-origin',
-                },
-            })
-            .then((response) => {
-                console.log(response);
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-                this.setState({convertedValue: data.convertedValue});
-                return data;
-            })
-            .catch((error) => {
-                console.log('ERR', error);
-                return error;
-            });
-        } catch (error) {
-            console.error(error);
-        }
+    submitForm(params) {
+        fetch('convert', params)
+            .then((data) => this.setState({convertedValue: data.convertedValue}))
+            .catch((error) => console.error(error));
     }
     render() {
         const {convertedValue, options} = this.state;
         return (
             <div>
+                <h2>
+                    Convert:
+                </h2>
                 <Form onSubmit={this.submitForm}
                       defaultValues={{
                           value: 1,
@@ -84,9 +37,12 @@ export default class CurrencyConverter extends Component {
                       }}
                 >
                     { formApi => (
-                        <form onSubmit={formApi.submitForm} id="form2">
+                        <form
+                            className="Currency-converter-form"
+                            onSubmit={formApi.submitForm} id="form2"
+                        >
                             <div>
-                                <label for="value">
+                                <label htmlFor="value">
                                     Amount:
                                 </label>
                                 <Text
@@ -95,7 +51,7 @@ export default class CurrencyConverter extends Component {
                                 />
                             </div>
                             <div>
-                                <label for="srcCurrency">
+                                <label htmlFor="srcCurrency">
                                     From:
                                 </label>
                                 <Select
@@ -106,7 +62,7 @@ export default class CurrencyConverter extends Component {
 
                             </div>
                             <div>
-                                <label for="dstCurrency">
+                                <label htmlFor="dstCurrency">
                                     To:
                                 </label>
                                 <Select
@@ -116,6 +72,7 @@ export default class CurrencyConverter extends Component {
                                 />
                             </div>
                             <div>
+                                <label />
                                 <button
                                     type="submit"
                                 >
