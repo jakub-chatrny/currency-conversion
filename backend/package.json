@@ -11,11 +11,12 @@
     "file-cmd": "0.0.4",
     "koa": "^1.2.5",
     "koa-auto-routes": "0.0.4",
+    "koa-body": "^2.5.0",
     "koa-bodyparser": "^2.3.0",
-    "koa-cors": "^0.0.16",
-    "koa-router": "^5.4.0"
+    "koa-cors": "0.0.16",
+    "koa-router": "^5.4.0",
+    "node-fetch": "^1.7.3"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "node start.js"
   },

@@ -1,11 +1,10 @@
-let Router = require('koa-router')
-let fileCmd = require('file-cmd')
+const api = require('koa-router')();
+const enums = require('./enumRoutes');
+const currency = require('./currencyRoutes');
 
-let router = new Router()
+api.use('/api',
+    currency.routes(),
+    enums.routes(),
+);
 
-router.get('/', async function (next) {
-    this.body = 'hello,my koa app !'
-    await next
-})
-
-module.exports = router
+module.exports = api;
